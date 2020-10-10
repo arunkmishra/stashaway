@@ -15,21 +15,17 @@ trait Portfolio {
 
 case class RetirementPortfolio(amount: Money) extends Portfolio {
 
-  //val name = "RetirementPortfolio"
-
   override def addMoney(amount: Money): RetirementPortfolio =
     this.copy(amount = this.amount + amount)
 }
 
 case class EmergencyPortfolio(amount: Money) extends Portfolio {
-  //val name = "EmergencyPortfolio"
 
   override def addMoney(amount: Money): EmergencyPortfolio =
     this.copy(amount = this.amount + amount)
 }
 
 case class HighRiskPortfolio(amount: Money) extends Portfolio {
-  //val name = "HighRiskPortfolio"
 
   override def addMoney(amount: Money): HighRiskPortfolio =
     this.copy(amount = this.amount + amount)
