@@ -27,12 +27,12 @@ object RunApplication extends Logger {
 
     val customerService = new CustomerService(List(customer1, customer))
 
-    customer1 = customerService.processCustomerDeposit(customer1, Money(10700))
-    logger.info(s"showing info for customer : ${customer1}")
+    customer1 = customerService.findCustomerAndDeposit(ReferenceNumber(11), Money(10700)).getOrElse(customer1)
+    logger.info(s"showing info for customer : $customer1")
 
-    customer = customerService.processCustomerDeposit(customer, Money(10750))
-    customer = customerService.processCustomerDeposit(customer, Money(150))
-    logger.info(s"showing info for customer : ${customer} ")
+    customer = customerService.findCustomerAndDeposit(ReferenceNumber(12), Money(10)).getOrElse(customer)
+    customer = customerService.findCustomerAndDeposit(ReferenceNumber(12), Money(10)).getOrElse(customer)
+    logger.info(s"showing info for customer : $customer ")
   }
 
 
