@@ -15,9 +15,10 @@
 3. **Monthly plan** is for recurring deposits
 4. wallet can store your money if not sufficient deposit is made and it can be used in plan if wallet amount reaches to allocated plan.
 5. One time plan is given priority over monthly if both plans are defined for a customer.
+6. For running at local added in memory data repositry.
 
 
-  **How to run ?**
+ **How to run ?**
 `sbt "runMain com.stashorg.RunApplication"`
 
 **Assumptions**
