@@ -12,6 +12,6 @@ trait Repository[K, V] {
 
   def findByKey(keyToSearch: K): Option[V]
 
-  def showAllCustomersInRepository(): Unit
+  def showAllRecordsInRepository(): Unit
 
 }

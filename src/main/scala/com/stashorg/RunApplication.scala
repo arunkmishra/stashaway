@@ -62,20 +62,20 @@ object RunApplication {
     )
 
     logger.info(s"showing info for customer : ")
-    inMemoryCustomerRepository.showAllCustomersInRepository()
+    inMemoryCustomerRepository.showAllRecordsInRepository()
 
     processResult(
       customerService
         .findCustomerAndDeposit(ReferenceNumber(22222), Money(10750))
     )
-    inMemoryCustomerRepository.showAllCustomersInRepository()
+    inMemoryCustomerRepository.showAllRecordsInRepository()
 
     processResult(
       customerService
         .findCustomerAndDeposit(ReferenceNumber(22222), Money(650))
     )
     logger.info(s"showing info for customer : ")
-    inMemoryCustomerRepository.showAllCustomersInRepository()
+    inMemoryCustomerRepository.showAllRecordsInRepository()
   }
 
 }

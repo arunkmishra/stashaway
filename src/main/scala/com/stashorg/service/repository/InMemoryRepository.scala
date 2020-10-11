@@ -23,6 +23,6 @@ class InMemoryRepository[K, V]() extends Repository[K, V] {
   def findByKey(key: K): Option[V] =
     values.get(key)
 
-  def showAllCustomersInRepository(): Unit = values.values.foreach(println)
+  def showAllRecordsInRepository(): Unit = values.values.foreach(println)
 
 }
