@@ -16,16 +16,16 @@ case class Money(amount: BigDecimal, currency: Currency = SGP) {
 //TODO: add a method to check currency before operating on amount
 object Money {
 
-
   def zero(currency: Currency = SGP) = Money(0, currency)
 
+  //conversion rates will be handled here
   implicit def moneyAsNumber(amt: Money): BigDecimal = amt.amount
 
-  implicit val ordering: Ordering[Money] = new Ordering[Money]{
+  implicit val ordering: Ordering[Money] = new Ordering[Money] {
     override def compare(x: Money, y: Money): Int =
-      if(x.amount > y.amount)
+      if (x.amount > y.amount)
         1
-      else if(x.amount < y.amount)
+      else if (x.amount < y.amount)
         -1
       else
         0

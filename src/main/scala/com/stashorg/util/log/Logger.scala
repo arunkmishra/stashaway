@@ -2,7 +2,7 @@ package com.stashorg.util.log
 
 trait Logger {
 
-  val appName: String
+  def appName: String
 
   def info(msg: String)
   def warn(msg: String)

@@ -9,12 +9,4 @@ sealed trait DepositPlan {
 }
 
 case class OneTimePlan(portfolios: Seq[Portfolio]) extends DepositPlan
-object OneTimePlan {
-  val emptyOneTimePlan: OneTimePlan = OneTimePlan(Nil)
-}
-
 case class MonthlyPlan(portfolios: Seq[Portfolio]) extends DepositPlan
-object MonthlyPlan {
-  val emptyMonthlyPlan: MonthlyPlan = MonthlyPlan(Nil)
-}
-

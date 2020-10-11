@@ -5,11 +5,14 @@ class CustomerRepository(customers: List[Customer]) {
 
   def isEmpty: Boolean = customers.isEmpty
 
-  def addCustomer(customer: Customer): CustomerRepository = new CustomerRepository(customer :: customers)
+  def addCustomer(customer: Customer): CustomerRepository =
+    new CustomerRepository(customer :: customers)
 
-  def updateCustomer(referenceNumber: ReferenceNumber, updatedCustomer: Customer): CustomerRepository =
-    new CustomerRepository(customers.map{
-      case Customer(refNo, _, _, _, _) if refNo == referenceNumber => updatedCustomer
+  def updateCustomer(referenceNumber: ReferenceNumber,
+                     updatedCustomer: Customer): CustomerRepository =
+    new CustomerRepository(customers.map {
+      case Customer(refNo, _, _, _, _) if refNo == referenceNumber =>
+        updatedCustomer
       case customer => customer
     })
 
@@ -22,9 +25,9 @@ class CustomerRepository(customers: List[Customer]) {
 
 object CustomerRepository {
 
-  def empty: CustomerRepository = new CustomerRepository(Nil)
-
   def apply(xs: Customer*): CustomerRepository =
-    xs.foldLeft(CustomerRepository.empty)((r,a) => r.addCustomer(a))
+    xs.foldLeft(CustomerRepository.empty)((r, a) => r.addCustomer(a))
+
+  def empty: CustomerRepository = new CustomerRepository(Nil)
 
 }

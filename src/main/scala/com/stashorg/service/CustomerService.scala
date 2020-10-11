@@ -1,20 +1,22 @@
 package com.stashorg.service
 
 import com.stashorg.model._
-import com.stashorg.util.ApplicationLogger
+import com.stashorg.util.ConsoleLogger
 
-class CustomerService(customerRepository: CustomerRepository) {
-  type DepositError = String
-  val logger = new ApplicationLogger(this.getClass.getSimpleName)
-  val depositService: DepositService = new DepositService()
+class CustomerService(customerRepository: => CustomerRepository) {
+
+  private val logger = new ConsoleLogger(this.getClass.getCanonicalName)
+  private val depositService: DepositService = new DepositService()
 
   def findCustomerAndDeposit(
     referenceNumber: ReferenceNumber,
     depositAmount: Money
-  ): Either[DepositError, CustomerRepository] =
+  ): Either[DepositFailure, CustomerRepository] =
     customerRepository.findCustomerByRefNo(referenceNumber) match {
       case Some(customer) =>
-        logger.info(s"depositing $depositAmount to customer with ref no. : $referenceNumber")
+        logger.info(
+          s"depositing $depositAmount to customer with ref no. : $referenceNumber"
+        )
         depositService
           .depositInCustomerAccount(customer, depositAmount)
           .fold(
@@ -23,7 +25,9 @@ class CustomerService(customerRepository: CustomerRepository) {
           )
       case None =>
         logger.warn(s"No customer found with ref no. : $referenceNumber")
-        Left(s"No customer found with ref no. : $referenceNumber")
+        Left(
+          DepositFailure(s"No customer found with ref no. : $referenceNumber")
+        )
     }
 
 }

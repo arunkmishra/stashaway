@@ -4,12 +4,19 @@ trait Portfolio {
   def amount: Money
   val name: String = this.getClass.getSimpleName
 
-  override def toString: String = name.split("Portfolio").mkString(" ") + s" [$amount] "
+  override def toString: String = name.split("Portfolio").mkString(" ") + s" [$amount]"
 
   def addMoney(amount: Money): Portfolio
 
-  def sum(that: Portfolio): Money = amount + that.amount
   def sum(that: Money): Money = amount + that
+
+  def updateAmountInPortfolios(portfolios: Seq[Portfolio]): Seq[Portfolio] =
+    portfolios.map {
+      case folio if folio.name == this.name =>
+        folio.addMoney(this.amount)
+      case folio => folio
+    }
+
 }
 
 
