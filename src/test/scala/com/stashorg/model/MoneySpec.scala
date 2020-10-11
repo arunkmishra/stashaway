@@ -17,7 +17,7 @@ class MoneySpec extends AnyFlatSpec {
     assert(actualAmount == expectedAmount)
   }
 
-  "def +" should "return subtraction of two amount" in {
+  "def -" should "return subtraction of two amount" in {
     val fiveSGP = Money(5, SGP)
     val actualAmount = tenSGP - fiveSGP
     val expectedAmount = Money(5, SGP)

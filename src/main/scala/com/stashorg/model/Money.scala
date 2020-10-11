@@ -18,7 +18,6 @@ object Money {
 
   def zero(currency: Currency = SGP) = Money(0, currency)
 
-  //conversion rates will be handled here
   implicit def moneyAsNumber(amt: Money): BigDecimal = amt.amount
 
   implicit val ordering: Ordering[Money] = new Ordering[Money] {

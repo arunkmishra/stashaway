@@ -5,7 +5,7 @@ import com.stashorg.util.ConsoleLogger
 
 import scala.annotation.tailrec
 
-trait DepositAllocation {
+trait DepositAllocator {
 
   val plan: DepositPlan
 
@@ -14,8 +14,7 @@ trait DepositAllocation {
   def runPlanForDepositPlan(depositAmount: Money,
                             portfolio: Seq[Portfolio]): WalletWithPortfolio
 
-  def addMoneyInDepositPlan(deposit: Money,
-                            folios: Seq[Portfolio]): Seq[Portfolio] = {
+  def addMoneyInDepositPlan(folios: Seq[Portfolio]): Seq[Portfolio] = {
     logger.info(
       s"adding amount ${plan.getTotalDepositAllocation} to plan : ${plan.getClass.getSimpleName}"
     )

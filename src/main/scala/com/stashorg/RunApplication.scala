@@ -1,7 +1,8 @@
 package com.stashorg
 
 import com.stashorg.model._
-import com.stashorg.service.{CustomerRepository, CustomerService}
+import com.stashorg.service.CustomerService
+import com.stashorg.service.repository.InMemoryRepositoryForCustomer
 import com.stashorg.util.ConsoleLogger
 
 object RunApplication {
@@ -44,28 +45,37 @@ object RunApplication {
       )
     )
 
-    var customerRepository: CustomerRepository = CustomerRepository(customer, customer1)
+    val inMemoryCustomerRepository = InMemoryRepositoryForCustomer(customer, customer1)
 
-    //customer change
-    val customerService = new CustomerService(customerRepository)
+    val customerService = new CustomerService(inMemoryCustomerRepository)
 
-    def processResult(result: Either[DepositFailure, CustomerRepository]): Unit =
-      result.fold(err => logger.warn(s"transaction failed with err: $err"), c => customerRepository = c)
+    def processResult(result: DepositResult): Unit =
+      result match {
+        case DepositFailure(err) =>
+          logger.error(s"Transaction failed with error : $err")
+        case DepositSuccess(_) => logger.info("Transaction successful")
+      }
 
-    processResult(customerService
-      .findCustomerAndDeposit(ReferenceNumber(11111), Money(10700)))
+    processResult(
+      customerService
+        .findCustomerAndDeposit(ReferenceNumber(11111), Money(10700))
+    )
 
     logger.info(s"showing info for customer : ")
-    customerRepository.showAllCustomersInRepository()
+    inMemoryCustomerRepository.showAllCustomersInRepository()
 
-    processResult(customerService
-      .findCustomerAndDeposit(ReferenceNumber(22222), Money(10750)))
-    customerRepository.showAllCustomersInRepository()
+    processResult(
+      customerService
+        .findCustomerAndDeposit(ReferenceNumber(22222), Money(10750))
+    )
+    inMemoryCustomerRepository.showAllCustomersInRepository()
 
-    processResult(customerService
-      .findCustomerAndDeposit(ReferenceNumber(22222), Money(650)))
+    processResult(
+      customerService
+        .findCustomerAndDeposit(ReferenceNumber(22222), Money(650))
+    )
     logger.info(s"showing info for customer : ")
-    customerRepository.showAllCustomersInRepository()
+    inMemoryCustomerRepository.showAllCustomersInRepository()
   }
 
 }

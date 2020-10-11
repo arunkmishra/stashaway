@@ -1,10 +1,7 @@
 package com.stashorg.service
 
 import com.stashorg.model._
-import com.stashorg.service.deposit.{
-  MonthlyPlanDepositAllocation,
-  OneTimeDepositAllocation
-}
+import com.stashorg.service.deposit.{ MonthlyPlanDepositAllocator, OneTimeDepositAllocator }
 import com.stashorg.util.ConsoleLogger
 
 class DepositService() {
@@ -17,17 +14,15 @@ class DepositService() {
   ): Either[DepositFailure, Customer] =
     (customer.oneTimePlan, customer.monthlyPlan) match {
       case (Some(oneTime), Some(monthly)) =>
-        logger.debug(
-          s"Running one time plan first"
-        )
+        logger.debug(s"Running one time plan first")
         val (remainingDeposit, updatedPortfolios) =
-          OneTimeDepositAllocation(oneTime).runPlanForDepositPlan(
+          OneTimeDepositAllocator(oneTime).runPlanForDepositPlan(
             depositAmount + customer.wallet.amount,
             customer.portfolios
           )
         logger.debug("Running monthly plan ")
         val (finalRemainingAmount, updatedPortfoliosAfterMonthlyPlan) =
-          MonthlyPlanDepositAllocation(monthly)
+          MonthlyPlanDepositAllocator(monthly)
             .runPlanForDepositPlan(remainingDeposit.amount, updatedPortfolios)
         Right(
           customer.copy(
@@ -38,7 +33,7 @@ class DepositService() {
       case (Some(oneTime), None) =>
         logger.debug("running only one time plan")
         val (remainingDeposit, updatedPortfolios) =
-          OneTimeDepositAllocation(oneTime).runPlanForDepositPlan(
+          OneTimeDepositAllocator(oneTime).runPlanForDepositPlan(
             depositAmount + customer.wallet.amount,
             customer.portfolios
           )
@@ -49,7 +44,7 @@ class DepositService() {
       case (None, Some(monthly)) =>
         logger.debug("running only monthly plan")
         val (remainingDeposit, updatedPortfolios) =
-          MonthlyPlanDepositAllocation(monthly).runPlanForDepositPlan(
+          MonthlyPlanDepositAllocator(monthly).runPlanForDepositPlan(
             depositAmount + customer.wallet.amount,
             customer.portfolios
           )

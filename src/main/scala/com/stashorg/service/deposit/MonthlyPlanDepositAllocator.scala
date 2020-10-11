@@ -4,8 +4,8 @@ import com.stashorg.service.WalletWithPortfolio
 
 import scala.annotation.tailrec
 
-case class MonthlyPlanDepositAllocation(plan: MonthlyPlan)
-    extends DepositAllocation {
+case class MonthlyPlanDepositAllocator(plan: MonthlyPlan)
+    extends DepositAllocator {
 
   override def runPlanForDepositPlan(
     depositAmount: Money,
@@ -19,7 +19,7 @@ case class MonthlyPlanDepositAllocation(plan: MonthlyPlan)
             .zero())
         tailrec(
           remAmt - plan.getTotalDepositAllocation,
-          addMoneyInDepositPlan(remAmt, resultFolio)
+          addMoneyInDepositPlan(resultFolio)
         )
       else
         (StashAwaySimpleWallet(remAmt), resultFolio)

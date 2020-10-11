@@ -4,7 +4,8 @@ trait Portfolio {
   def amount: Money
   val name: String = this.getClass.getSimpleName
 
-  override def toString: String = name.split("Portfolio").mkString(" ") + s" [$amount]"
+  override def toString: String =
+    name.split("Portfolio").mkString(" ") + s" [$amount]"
 
   def addMoney(amount: Money): Portfolio
 
@@ -18,7 +19,6 @@ trait Portfolio {
     }
 
 }
-
 
 case class RetirementPortfolio(amount: Money) extends Portfolio {
 
@@ -37,4 +37,3 @@ case class HighRiskPortfolio(amount: Money) extends Portfolio {
   override def addMoney(amount: Money): HighRiskPortfolio =
     this.copy(amount = this.amount + amount)
 }
-
