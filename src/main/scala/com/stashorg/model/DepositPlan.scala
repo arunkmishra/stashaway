@@ -1,19 +1,19 @@
 package com.stashorg.model
 
-trait DepositPlan {
-  def portfolios: List[Portfolio]
+sealed trait DepositPlan {
+  def portfolios: Seq[Portfolio]
 
   def getTotalDepositAllocation: Money =
     portfolios.foldLeft(Money.zero())((acc, folio) => folio.sum(acc))
 
 }
 
-case class OneTimePlan(portfolios: List[Portfolio]) extends DepositPlan
+case class OneTimePlan(portfolios: Seq[Portfolio]) extends DepositPlan
 object OneTimePlan {
   val emptyOneTimePlan: OneTimePlan = OneTimePlan(Nil)
 }
 
-case class MonthlyPlan(portfolios: List[Portfolio]) extends DepositPlan
+case class MonthlyPlan(portfolios: Seq[Portfolio]) extends DepositPlan
 object MonthlyPlan {
   val emptyMonthlyPlan: MonthlyPlan = MonthlyPlan(Nil)
 }
